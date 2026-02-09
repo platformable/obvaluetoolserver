@@ -337,12 +337,8 @@ class ValueToolResponse(BaseModel):
     Segments: Optional[str]
     Regions: Optional[str]
 
-    # Compatibility for Pydantic v1 and v2:
-    # - Pydantic v1 uses `Config.orm_mode = True`
-    # - Pydantic v2 uses `model_config = {"from_attributes": True}`
-    # We'll attempt to set v2-style config and fall back to v1 if not available.
-
-
+    class Config:
+        from_attributes = True
 
 
 @app.get("/value-tools", response_model=List[ValueToolResponse])
@@ -379,15 +375,3 @@ def get_value_tools():
     
         result = session.exec(query).mappings().all()
         return result
-
-
-# Configure Pydantic compatibility for ValueToolResponse
-try:
-    # Pydantic v2
-    ValueToolResponse.model_config = {"from_attributes": True}
-except Exception:
-    # Pydantic v1
-    class _Config:
-        orm_mode = True
-
-    ValueToolResponse.Config = _Config
