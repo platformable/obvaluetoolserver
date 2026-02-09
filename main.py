@@ -1,5 +1,5 @@
 from typing import List, Union, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from fastapi import FastAPI, Query
 from sqlmodel import  SQLModel, create_engine, Field, Session, select, col, MetaData, Table, text
 from sqlalchemy.types import JSON
@@ -337,8 +337,7 @@ class ValueToolResponse(BaseModel):
     Segments: Optional[str]
     Regions: Optional[str]
 
-    
-
+    model_config = ConfigDict(frozen=True, extra='ignore')
 
 @app.get("/value-tools", response_model=List[ValueToolResponse])
 def get_value_tools():
@@ -374,14 +373,3 @@ def get_value_tools():
     
         result = session.exec(query).mappings().all()
         return result
-
-
-# Pydantic compatibility: prefer v2 ConfigDict/model_config, fall back to v1 Config
-try:
-    # Pydantic v2
-    from pydantic import ConfigDict
-
-    ValueToolResponse.model_config = ConfigDict(from_attributes=True)
-except Exception:
-    # Pydantic v1
-    ValueToolResponse.Config = type("Config", (), {"orm_mode": True})
