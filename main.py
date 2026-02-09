@@ -337,8 +337,8 @@ class ValueToolResponse(BaseModel):
     Segments: Optional[str]
     Regions: Optional[str]
 
-    class Config:
-        from_attributes = True
+    """ class Config:
+        from_attributes = True """
 
 
 @app.get("/value-tools", response_model=List[ValueToolResponse])
