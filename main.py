@@ -14,7 +14,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https://obvaluetool.platformable.com"
+    "https://openbankingvalue.platformable.com"
 ]
 
 DATABASE_PASSWORD = os.getenv("DB_PASSWORD")
