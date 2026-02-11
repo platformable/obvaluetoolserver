@@ -13,7 +13,8 @@ load_dotenv()
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://obvaluetool.platformable.com"
 ]
 
 DATABASE_PASSWORD = os.getenv("DB_PASSWORD")
